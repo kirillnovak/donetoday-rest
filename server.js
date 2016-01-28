@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
 // MongoDB
-mongoose.connect('mongodb://localhost/donetoday');
+mongoose.connect('mongodb://127.0.0.1/donetoday');
 
 // Express
 var app = express();
@@ -16,6 +16,7 @@ app.use('/api', require('./routes/api'));
 app.use('/', function(req, res){
 	res.render('index', { title: 'DoneToday', message: 'Welcome to your personal life changer.'});
 });
+app.use('/tasks', require('./routes/tasks'));
 
 // Start server
 app.listen(4001);
