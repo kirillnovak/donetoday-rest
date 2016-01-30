@@ -16,7 +16,12 @@ app.use('/api', require('./routes/api'));
 app.use('/', function(req, res){
 	res.render('index', { title: 'DoneToday', message: 'Welcome to your personal life changer.'});
 });
+
+// Tasks
 app.use('/tasks', require('./routes/tasks'));
+
+// Clients
+// app.use('/clients', require('./routes/clients')());
 
 // Start server
 app.listen(4001);
