@@ -25,9 +25,8 @@ app.use('/', function(req, res){
 });
 var recordsRoute = router.route('/records');
 
-// Create endpoint /api/beers for POSTS
+// End Points
 recordsRoute.post(function(req, res) {
-  // Create a new instance of the Beer model
   var record = new Record();
 
   record.message = req.body.message;
@@ -36,9 +35,19 @@ recordsRoute.post(function(req, res) {
   record.save(function(err) {
     if (err) {
       res.send(err);
-		}
+    }
 
     res.json({ message: 'Record added', data: record });
+  });
+});
+
+recordsRoute.get(function(req, res) {
+  Record.find(function(err, records) {
+    if (err) {
+      res.send(err);
+    }
+
+    res.json(records);
   });
 });
 
