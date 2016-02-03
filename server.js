@@ -12,22 +12,27 @@ mongoose.connect('mongodb://127.0.0.1/donetoday');
 
 // Express
 var app = express();
-app.use(bodyParser.urlencoded({ 
-	extended: true 
+app.use(bodyParser.urlencoded({
+  extended: true
 }));
-app.use(bodyParser.json());
+app.use('/', router);
 app.set('view engine', 'jade');
 
 // Routes
 // app.use('/api', require('./routes/api'));
+/*
 app.use('/', function(req, res){
 	res.render('index', { title: 'DoneToday', message: 'Welcome to your personal life changer.'});
 });
+*/
+
 var recordsRoute = router.route('/records');
 
-// End Points
+// Create endpoint /api/records for POST
 recordsRoute.post(function(req, res) {
   var record = new Record();
+
+  console.log( req, 'body message' )
 
   record.message = req.body.message;
   record.creationDate = req.body.creationDate;
@@ -41,6 +46,7 @@ recordsRoute.post(function(req, res) {
   });
 });
 
+// Create endpoint /api/records for GET
 recordsRoute.get(function(req, res) {
   Record.find(function(err, records) {
     if (err) {
@@ -48,6 +54,19 @@ recordsRoute.get(function(req, res) {
     }
 
     res.json(records);
+  });
+});
+
+var recordRoute = router.route('/record/:record_id');
+
+// Create endpoint /api/record/:record_id for GET
+recordRoute.get(function(req, res) {
+  Record.findById(req.params.record_id, function(err, record) {
+    if (err) {
+      res.send(err);
+    }
+
+    res.json(record);
   });
 });
 
